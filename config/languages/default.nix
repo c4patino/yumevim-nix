@@ -11,6 +11,6 @@
 
   plugins = {
     nvim-autopairs.enable = true;
-    surround.enable = true;
+    vim-surround.enable = true;
   };
 }

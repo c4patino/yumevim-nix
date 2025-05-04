@@ -16,7 +16,7 @@
   plugins = {
     dressing.enable = true;
     numbertoggle.enable = true;
-    nvim-colorizer.enable = true;
+    colorizer.enable = true;
     gitsigns.enable = true;
   };
 

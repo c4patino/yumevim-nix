@@ -171,41 +171,17 @@
         texthl = "DapLogPoint";
       };
     };
-    extensions = {
-      dap-python.enable = true;
-      dap-ui = {
-        enable = true;
-        floating.mappings = {
-          close = ["<ESC>" "q"];
-        };
-      };
-      dap-virtual-text.enable = true;
-    };
-
-    # adapters = {
-    # 	executables = {
-    # 		gdb = {
-    # 			command = "gdb";
-    # 			args = [ "--interpreter=dap" "--eval-command" "set print pretty on" ];
-    # 		};
-    # 	};
-    # 	delve = { }; # go
-    # 	node2 = {}; # js
-    # 	debugpy = {}; # python
-    # 	java = {}; # java
-    # };
-    #
-    #       configurations = {
-    #           c = [
-    # 		{
-    # 			name = "Launch";
-    # 			type = "gdb";
-    # 			request = "launch";
-    # 		}
-    # 	];
-    #
-    #           cpp = [ ];
-    # 	rust = [ ];
-    #       };
   };
+
+  plugins.dap-virtual-text.enable = true;
+
+  plugins.dap-ui = {
+    enable = true;
+
+    settings.floating.mappings = {
+      close = ["<ESC>" "q"];
+    };
+  };
+
+  plugins.dap-python.enable = true;
 }

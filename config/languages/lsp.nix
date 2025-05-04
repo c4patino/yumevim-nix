@@ -6,13 +6,13 @@
       servers = {
         clangd.enable = true;
 
-        csharp-ls.enable = true;
+        csharp_ls.enable = true;
 
         gopls.enable = true;
 
-        java-language-server.enable = true;
+        java_language_server.enable = true;
 
-        lua-ls.enable = true;
+        lua_ls.enable = true;
 
         nixd.enable = true;
 
@@ -36,7 +36,7 @@
       };
     };
 
-    rust-tools.enable = true;
+    rustaceanvim.enable = true;
 
     typescript-tools.enable = true;
   };
