@@ -27,7 +27,7 @@
           "     ░  ░   ░      ░        ░     ░     "
           "                            ░           "
           "                                        "
-          "        git@github.com:C4theBomb        "
+          "         git@github.com:c4patino        "
         ];
       }
       (padding 2)
