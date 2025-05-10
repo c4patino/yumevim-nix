@@ -46,22 +46,23 @@
 
     vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
         vim.lsp.handlers.hover, {
-            border = _border
+            border = _border;
         }
     )
 
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
         vim.lsp.handlers.signature_help, {
-            border = _border
+            border = _border;
         }
     )
 
     vim.diagnostic.config {
-        float={border=_border}
+        float = { border=_border };
+        virtual_text = true;
     };
 
     require('lspconfig.ui.windows').default_options = {
-        border = _border
+        border = _border;
     }
   '';
 }
