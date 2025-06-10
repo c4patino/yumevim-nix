@@ -4,18 +4,13 @@
       enable = true;
       capabilities = "offsetEncoding = 'utf-16'";
       servers = {
+        astro.enable = true;
         clangd.enable = true;
-
         csharp_ls.enable = true;
-
         gopls.enable = true;
-
         java_language_server.enable = true;
-
         lua_ls.enable = true;
-
         nixd.enable = true;
-
         pylsp = {
           enable = true;
           settings.configurationSources = "pycodestyle";
@@ -29,15 +24,11 @@
             };
           };
         };
-
         sqls.enable = true;
-
         zls.enable = true;
       };
     };
-
     rustaceanvim.enable = true;
-
     typescript-tools.enable = true;
   };
 
