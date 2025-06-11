@@ -30,6 +30,11 @@
       };
 
       formatters_by_ft = {
+        astro = {
+          __unkeyed-1 = "prettierd";
+          __unkeyed-2 = "prettier";
+          stop_after_first = true;
+        };
         javascript = {
           __unkeyed-1 = "prettierd";
           __unkeyed-2 = "prettier";
