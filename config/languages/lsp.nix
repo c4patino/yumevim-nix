@@ -8,6 +8,10 @@
         clangd.enable = true;
         csharp_ls.enable = true;
         gopls.enable = true;
+        hls = {
+          enable = true;
+          installGhc = false;
+        };
         java_language_server.enable = true;
         lua_ls.enable = true;
         nixd.enable = true;
