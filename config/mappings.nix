@@ -92,7 +92,7 @@
       mode = ["n" "v"];
       key = "<leader>d";
       action = "\"_d";
-      options.desc = "";
+      options.desc = "Editing Delete without overwriting register";
     }
   ];
 }
