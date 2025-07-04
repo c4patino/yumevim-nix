@@ -14,11 +14,11 @@
     enable = true;
 
     settings = {
-      backgroundColour = "#000000";
+      background_color = "#000000";
       fps = 60;
       render = "default";
       timeout = 500;
-      topDown = false;
+      top_down = false;
     };
   };
 
