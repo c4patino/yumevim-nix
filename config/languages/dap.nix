@@ -164,33 +164,77 @@
     }
   ];
 
-  plugins.dap = {
-    enable = true;
-    signs = {
-      dapBreakpoint = {
-        text = "●";
-        texthl = "DapBreakpoint";
+  plugins = {
+    dap = {
+      enable = true;
+      configurations = {
+        python = [
+          {
+            type = "python";
+            request = "launch";
+            name = "module";
+            module.__raw = ''function() return vim.fn.input("Module: ") end '';
+
+            pythonPath.__raw = ''
+              function()
+                local cwd = vim.fn.getcwd()
+                if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+                  return cwd .. "/venv/bin/python"
+                elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+                  return cwd .. "/.venv/bin/python"
+                else
+                  return "python3"
+                end
+              end
+            '';
+          }
+          {
+            type = "python";
+            request = "launch";
+            name = "module:args";
+            module.__raw = ''function() return vim.fn.input("Module: ") end '';
+            args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
+            pythonPath.__raw = ''
+              function()
+                local cwd = vim.fn.getcwd()
+                if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+                  return cwd .. "/venv/bin/python"
+                elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+                  return cwd .. "/.venv/bin/python"
+                else
+                  return "python3"
+                end
+              end
+            '';
+          }
+        ];
       };
-      dapBreakpointCondition = {
-        text = "●";
-        texthl = "DapBreakpointCondition";
-      };
-      dapLogPoint = {
-        text = "◆";
-        texthl = "DapLogPoint";
+      signs = {
+        dapBreakpoint = {
+          text = "●";
+          texthl = "DapBreakpoint";
+        };
+        dapBreakpointCondition = {
+          text = "⏹";
+          texthl = "DapBreakpointCondition";
+        };
+        dapLogPoint = {
+          text = "◆";
+          texthl = "DapLogPoint";
+        };
       };
     };
-  };
 
-  plugins.dap-virtual-text.enable = true;
+    dap-virtual-text.enable = true;
 
-  plugins.dap-ui = {
-    enable = true;
+    dap-ui = {
+      enable = true;
 
-    settings.floating.mappings = {
-      close = ["<ESC>" "q"];
+      settings.floating.mappings = {
+        close = ["<Esc>" "q"];
+      };
     };
-  };
 
-  plugins.dap-python.enable = true;
+    dap-python.enable = true;
+  };
 }
