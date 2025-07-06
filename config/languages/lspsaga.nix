@@ -3,7 +3,7 @@
     {
       mode = "n";
       key = "gd";
-      action = "<cmd>Lspsaga finder def<CR>";
+      action = "<cmd>Lspsaga finder def<cr>";
       options = {
         desc = "Goto Definition";
         silent = true;
@@ -12,7 +12,7 @@
     {
       mode = "n";
       key = "gr";
-      action = "<cmd>Lspsaga finder ref<CR>";
+      action = "<cmd>Lspsaga finder ref<cr>";
       options = {
         desc = "Goto References";
         silent = true;
@@ -21,7 +21,7 @@
     {
       mode = "n";
       key = "gI";
-      action = "<cmd>Lspsaga finder imp<CR>";
+      action = "<cmd>Lspsaga finder imp<cr>";
       options = {
         desc = "Goto Implementation";
         silent = true;
@@ -31,7 +31,7 @@
     {
       mode = "n";
       key = "gT";
-      action = "<cmd>Lspsaga peek_type_definition<CR>";
+      action = "<cmd>Lspsaga peek_type_definition<cr>";
       options = {
         desc = "Type Definition";
         silent = true;
@@ -41,7 +41,7 @@
     {
       mode = "n";
       key = "K";
-      action = "<cmd>Lspsaga hover_doc<CR>";
+      action = "<cmd>Lspsaga hover_doc<cr>";
       options = {
         desc = "Hover";
         silent = true;
@@ -51,7 +51,7 @@
     {
       mode = "n";
       key = "<leader>cw";
-      action = "<cmd>Lspsaga outline<CR>";
+      action = "<cmd>Lspsaga outline<cr>";
       options = {
         desc = "Outline";
         silent = true;
@@ -61,7 +61,7 @@
     {
       mode = "n";
       key = "<leader>cr";
-      action = "<cmd>Lspsaga rename<CR>";
+      action = "<cmd>Lspsaga rename<cr>";
       options = {
         desc = "Rename";
         silent = true;
@@ -71,7 +71,7 @@
     {
       mode = "n";
       key = "<leader>ca";
-      action = "<cmd>Lspsaga code_action<CR>";
+      action = "<cmd>Lspsaga code_action<cr>";
       options = {
         desc = "Code Action";
         silent = true;
@@ -106,7 +106,7 @@
       onlyInCursor = true;
       numShortcut = true;
       keys = {
-        exec = "<CR>";
+        exec = "<cr>";
         quit = ["<Esc>" "q"];
       };
     };
@@ -119,7 +119,7 @@
     rename = {
       autoSave = false;
       keys = {
-        exec = "<CR>";
+        exec = "<cr>";
         quit = ["<C-k>" "<Esc>"];
         select = "x";
       };
