@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   keymaps = [
     {
       mode = "n";
@@ -176,6 +176,13 @@
               args = ["--port" "13000"];
             };
           };
+          go = {
+            port = 38697;
+            executable = {
+              command = "${pkgs.delve}/bin/dlv";
+              args = ["dap" "-l" "127.0.0.1:38697"];
+            };
+          };
         };
       };
       configurations = let
@@ -194,7 +201,15 @@
           cwd.__raw = ''function() return vim.fn.getcwd() end '';
           args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
         };
-        exeConfigs = [commonExe commonExeWithArgs];
+        commonExeRemote = {
+          type = "codelldb";
+          request = "attach";
+          name = "attach:remote";
+          connect.__raw = ''function() return vim.fn.input("Host: ") end'';
+          cwd.__raw = ''function() return vim.fn.getcwd() end'';
+        };
+
+        exeConfigs = [commonExe commonExeWithArgs commonExeRemote];
       in {
         python = let
           findPython = ''
@@ -230,6 +245,37 @@
         cpp = exeConfigs;
         rust = exeConfigs;
         zig = exeConfigs;
+        go = [
+          {
+            type = "go";
+            request = "launch";
+            name = "file";
+            program = "\${file}";
+            outputMode = "remote";
+          }
+          {
+            type = "go";
+            request = "launch";
+            name = "file:args";
+            program = "\${file}";
+            args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
+            outputMode = "remote";
+          }
+          {
+            type = "go";
+            mode = "remote";
+            request = "attach";
+            name = "attach";
+            connect.__raw = ''
+              function()
+                local input = vim.fn.input("Host: ")
+                local host, port = string.match(input, "([^:]+):(%d+)")
+                return { host = host, port = tonumber(port) }
+              end
+            '';
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+          }
+        ];
       };
       signs = {
         dapBreakpoint = {
@@ -247,8 +293,6 @@
       };
     };
 
-    dap-virtual-text.enable = true;
-
     dap-ui = {
       enable = true;
 
@@ -258,6 +302,7 @@
     };
 
     dap-python.enable = true;
+    # dap-go.enable = true;
     dap-lldb = {
       enable = true;
       settings.codelldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
