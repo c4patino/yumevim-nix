@@ -1,4 +1,4 @@
-{
+{ pkgs, ... }: {
   keymaps = [
     {
       mode = "n";
@@ -167,26 +167,55 @@
   plugins = {
     dap = {
       enable = true;
-      configurations = {
-        python = [
+      adapters = {
+        servers = {
+          codelldb = {
+            port = 13000;
+            executable = {
+              command = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
+              args = ["--port" "13000"];
+            };
+          };
+        };
+      };
+      configurations = let
+        commonExe = {
+          type = "codelldb";
+          request = "launch";
+          name = "exe";
+          program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file") end'';
+          cwd.__raw = ''function() return vim.fn.getcwd() end'';
+        };
+        commonExeWithArgs = {
+          type = "codelldb";
+          request = "launch";
+          name = "exe:args";
+          program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file") end '';
+          cwd.__raw = ''function() return vim.fn.getcwd() end '';
+          args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
+        };
+        exeConfigs = [commonExe commonExeWithArgs];
+      in {
+        python = let
+          findPython = ''
+            function()
+              local cwd = vim.fn.getcwd()
+              if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+                return cwd .. "/venv/bin/python"
+              elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+                return cwd .. "/.venv/bin/python"
+              else
+                return "python3"
+              end
+            end
+          '';
+        in [
           {
             type = "python";
             request = "launch";
             name = "module";
             module.__raw = ''function() return vim.fn.input("Module: ") end '';
-
-            pythonPath.__raw = ''
-              function()
-                local cwd = vim.fn.getcwd()
-                if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-                  return cwd .. "/venv/bin/python"
-                elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-                  return cwd .. "/.venv/bin/python"
-                else
-                  return "python3"
-                end
-              end
-            '';
+            pythonPath.__raw = findPython;
           }
           {
             type = "python";
@@ -194,20 +223,13 @@
             name = "module:args";
             module.__raw = ''function() return vim.fn.input("Module: ") end '';
             args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
-            pythonPath.__raw = ''
-              function()
-                local cwd = vim.fn.getcwd()
-                if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-                  return cwd .. "/venv/bin/python"
-                elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-                  return cwd .. "/.venv/bin/python"
-                else
-                  return "python3"
-                end
-              end
-            '';
+            pythonPath.__raw = findPython;
           }
         ];
+        c = exeConfigs;
+        cpp = exeConfigs;
+        rust = exeConfigs;
+        zig = exeConfigs;
       };
       signs = {
         dapBreakpoint = {
@@ -236,5 +258,9 @@
     };
 
     dap-python.enable = true;
+    dap-lldb = {
+      enable = true;
+      settings.codelldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
+    };
   };
 }
