@@ -183,33 +183,80 @@
               args = ["dap" "-l" "127.0.0.1:38697"];
             };
           };
+          pwa-node = {
+            port = 9229;
+            executable = {
+              command = "${pkgs.vscode-js-debug}/bin/js-debug";
+              args = ["9229" "127.0.0.1"];
+            };
+          };
         };
       };
       configurations = let
-        commonExe = {
-          type = "codelldb";
-          request = "launch";
-          name = "exe";
-          program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file") end'';
-          cwd.__raw = ''function() return vim.fn.getcwd() end'';
-        };
-        commonExeWithArgs = {
-          type = "codelldb";
-          request = "launch";
-          name = "exe:args";
-          program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file") end '';
-          cwd.__raw = ''function() return vim.fn.getcwd() end '';
-          args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
-        };
-        commonExeRemote = {
-          type = "codelldb";
-          request = "attach";
-          name = "attach:remote";
-          connect.__raw = ''function() return vim.fn.input("Host: ") end'';
-          cwd.__raw = ''function() return vim.fn.getcwd() end'';
-        };
+        exeConfigs = [
+          {
+            type = "codelldb";
+            request = "launch";
+            name = "exe";
+            program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file") end'';
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+          }
+          {
+            type = "codelldb";
+            request = "launch";
+            name = "exe:args";
+            program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd() .. "/target/debug/", "file") end '';
+            cwd.__raw = ''function() return vim.fn.getcwd() end '';
+            args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
+          }
+          {
+            type = "codelldb";
+            request = "attach";
+            name = "attach";
+            connect.__raw = ''function() return vim.fn.input("Host: ") end'';
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+          }
+        ];
 
-        exeConfigs = [commonExe commonExeWithArgs commonExeRemote];
+        webConfigs = [
+          {
+            type = "pwa-node";
+            request = "launch";
+            name = "current";
+            program = "\${file}";
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+          }
+          {
+            type = "pwa-node";
+            request = "launch";
+            name = "current:args";
+            program = "\${file}";
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+            args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
+          }
+          {
+            type = "pwa-node";
+            request = "launch";
+            name = "file";
+            program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd(), "file") end '';
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+          }
+          {
+            type = "pwa-node";
+            request = "launch";
+            name = "file:args";
+            program.__raw = ''function() return vim.fn.input("Executable: ", vim.fn.getcwd(), "file") end '';
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+            args.__raw = ''function() return vim.fn.split(vim.fn.input("Arguments: "), " ") end'';
+          }
+          {
+            type = "pwa-node";
+            request = "attach";
+            name = "attach";
+            connect.__raw = ''function() return vim.fn.input("Host: ") end'';
+            cwd.__raw = ''function() return vim.fn.getcwd() end'';
+          }
+        ];
       in {
         python = let
           findPython = ''
@@ -276,6 +323,11 @@
             cwd.__raw = ''function() return vim.fn.getcwd() end'';
           }
         ];
+
+        javascript = webConfigs;
+        javascriptreact = webConfigs;
+        typescript = webConfigs;
+        typescriptreact = webConfigs;
       };
       signs = {
         dapBreakpoint = {
@@ -302,7 +354,6 @@
     };
 
     dap-python.enable = true;
-    # dap-go.enable = true;
     dap-lldb = {
       enable = true;
       settings.codelldb_path = "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb";
