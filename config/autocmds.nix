@@ -25,6 +25,7 @@
       callback.__raw = ''
         function()
           vim.opt_local.wrap = true;
+          vim.opt_local.textwidth = 80;
           vim.opt_local.linebreak = true;
           vim.keymap.set("n", "<leader>zz", function()
             if require("zen-mode.view").is_open() then
