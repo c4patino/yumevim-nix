@@ -10,7 +10,7 @@
     }
     {
       event = "FileType";
-      pattern = ["astro" "javascript" "javascriptreact" "nix" "tex" "typescript" "typescriptreact"];
+      pattern = ["astro" "haskell" "javascript" "javascriptreact" "nix" "tex" "typescript" "typescriptreact"];
       callback.__raw = ''
         function()
           vim.opt_local.tabstop = 2;
