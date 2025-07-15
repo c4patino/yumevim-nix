@@ -21,7 +21,7 @@
     }
     {
       event = "FileType";
-      pattern = "tex";
+      pattern = ["tex" "latex"];
       callback.__raw = ''
         function()
           vim.opt_local.wrap = true;
@@ -31,7 +31,7 @@
             if require("zen-mode.view").is_open() then
               require("zen-mode").toggle()
             else
-              require("zen-mode").toggle({ window = { width = 85 } })
+              require("zen-mode").toggle({ window = { width = 90 } })
             end
           end, { buffer = true, desc = "ZenMode toggle" })
         end
