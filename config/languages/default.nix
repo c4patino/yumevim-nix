@@ -6,6 +6,7 @@
     ./lsp.nix
     ./lspkind.nix
     ./lspsaga.nix
+    ./luasnip.nix
     ./treesitter.nix
   ];
 
