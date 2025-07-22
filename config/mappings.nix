@@ -94,5 +94,12 @@
       action = "\"_d";
       options.desc = "Editing Delete without overwriting register";
     }
+
+    {
+      mode = "n";
+      key = "<leader>rf";
+      action.__raw = ''function() vim.cmd("normal! zx") end'';
+      options.desc = "Editing Refresh Tree-sitter folds";
+    }
   ];
 }

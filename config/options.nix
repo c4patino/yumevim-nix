@@ -28,6 +28,9 @@
 
     foldcolumn = "0";
     foldlevel = 99;
+    foldmethod = "expr";
+    foldexpr = "nvim_treesitter#foldexpr()";
+    foldenable = true;
 
     signcolumn = "yes";
   };

@@ -20,6 +20,14 @@
       '';
     }
     {
+      event = ["BufEnter" "BufWinEnter"];
+      callback.__raw = ''
+        function()
+          vim.defer_fn(function() vim.cmd("silent! normal! zx") end, 100)
+        end
+      '';
+    }
+    {
       event = "FileType";
       pattern = ["tex" "latex"];
       callback.__raw = ''
