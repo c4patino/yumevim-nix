@@ -6,7 +6,7 @@
         workspaces = [
         {
           name = "obsidian";
-          path = "~/Obsidian/obsidian";
+          path = "~/Documents/obsidian";
         }
         ];
       };
