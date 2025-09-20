@@ -47,6 +47,8 @@
       highlightGit = true;
       indentMarkers.enable = true;
 
+      groupEmpty = true;
+
       icons.glyphs = {
         default = "󰈚";
         symlink = "";
