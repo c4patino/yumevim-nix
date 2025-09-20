@@ -4,10 +4,10 @@
       enable = true;
       settings = {
         workspaces = [
-        {
-          name = "obsidian";
-          path = "~/Documents/obsidian";
-        }
+          {
+            name = "obsidian";
+            path = "~/Documents/obsidian";
+          }
         ];
       };
     };
