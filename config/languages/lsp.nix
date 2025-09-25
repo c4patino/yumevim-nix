@@ -13,7 +13,7 @@
           installGhc = false;
           package = pkgs.haskell-language-server.override {supportedGhcVersions = ["98" "910"];};
         };
-        java_language_server.enable = true;
+        jdtls.enable = true;
         lua_ls.enable = true;
         nixd.enable = true;
         pylsp = {
