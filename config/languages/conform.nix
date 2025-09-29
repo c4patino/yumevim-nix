@@ -63,6 +63,10 @@ in {
           __unkeyed-2 = "prettier";
           stop_after_first = true;
         };
+        java = {
+          __unkeyed-1 = "nix_fmt";
+          stop_after_first = true;
+        };
         lua = {
           __unkeyed-1 = "stylua";
         };
