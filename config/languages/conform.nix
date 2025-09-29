@@ -31,51 +31,23 @@ in {
         lsp_format = "fallback";
       };
 
-      formatters_by_ft = {
-        astro = {
-          __unkeyed-1 = "prettierd";
-          __unkeyed-2 = "prettier";
-          stop_after_first = true;
-        };
-        cabal = {
-          __unkeyed-1 = "ormolu";
-        };
-        haskell = {
-          __unkeyed-1 = "ormolu";
-        };
-        javascript = {
-          __unkeyed-1 = "prettierd";
-          __unkeyed-2 = "prettier";
-          stop_after_first = true;
-        };
-        javascriptreact = {
-          __unkeyed-1 = "prettierd";
-          __unkeyed-2 = "prettier";
-          stop_after_first = true;
-        };
-        typescript = {
-          __unkeyed-1 = "prettierd";
-          __unkeyed-2 = "prettier";
-          stop_after_first = true;
-        };
-        typescriptreact = {
-          __unkeyed-1 = "prettierd";
-          __unkeyed-2 = "prettier";
-          stop_after_first = true;
-        };
-        java = {
-          __unkeyed-1 = "nix_fmt";
-          stop_after_first = true;
-        };
-        lua = {
-          __unkeyed-1 = "stylua";
-        };
-        nix = {
-          __unkeyed-1 = "alejandra";
-        };
-        racket = {
-          __unkeyed-1 = "raco_fmt";
-        };
+      formatters_by_ft = let
+        withNixFmt = formatters:
+          listToUnkeyedAttrs (["nix_fmt"] ++ formatters)
+          // {
+            stop_after_first = true;
+          };
+      in {
+        astro = withNixFmt ["prettierd" "prettier"];
+        cabal = withNixFmt ["ormolu"];
+        haskell = withNixFmt ["ormolu"];
+        javascript = withNixFmt ["prettierd" "prettier"];
+        javascriptreact = withNixFmt ["prettierd" "prettier"];
+        lua = withNixFmt ["stylua"];
+        nix = withNixFmt ["alejandra"];
+        racket = withNixFmt ["raco_fmt"];
+        typescript = withNixFmt ["prettierd" "prettier"];
+        typescriptreact = withNixFmt ["prettierd" "prettier"];
       };
 
       formatters = {
