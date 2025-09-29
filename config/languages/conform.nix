@@ -1,4 +1,6 @@
-{
+{lib, ...}: let
+  inherit (lib.nixvim.utils) listToUnkeyedAttrs;
+in {
   keymaps = [
     {
       mode = "n";
@@ -75,6 +77,10 @@
       formatters = {
         raco_fmt = {
           command = "raco";
+          args = ["fmt"];
+        };
+        nix_fmt = {
+          command = "nix";
           args = ["fmt"];
         };
       };
