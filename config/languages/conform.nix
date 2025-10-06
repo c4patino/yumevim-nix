@@ -32,22 +32,23 @@ in {
       };
 
       formatters_by_ft = let
-        withNixFmt = formatters:
+        mkFormatList = formatters:
           listToUnkeyedAttrs formatters
           // {
             stop_after_first = true;
           };
       in {
-        astro = withNixFmt ["prettierd" "prettier"];
-        cabal = withNixFmt ["ormolu"];
-        haskell = withNixFmt ["ormolu"];
-        javascript = withNixFmt ["prettierd" "prettier"];
-        javascriptreact = withNixFmt ["prettierd" "prettier"];
-        lua = withNixFmt ["stylua"];
-        nix = withNixFmt ["alejandra"];
-        racket = withNixFmt ["raco_fmt"];
-        typescript = withNixFmt ["prettierd" "prettier"];
-        typescriptreact = withNixFmt ["prettierd" "prettier"];
+        astro = mkFormatList ["prettierd" "prettier"];
+        cabal = mkFormatList ["ormolu"];
+        haskell = mkFormatList ["ormolu"];
+        java = mkFormatList ["google-java-format"];
+        javascript = mkFormatList ["prettierd" "prettier"];
+        javascriptreact = mkFormatList ["prettierd" "prettier"];
+        lua = mkFormatList ["stylua"];
+        nix = mkFormatList ["alejandra"];
+        racket = mkFormatList ["raco_fmt"];
+        typescript = mkFormatList ["prettierd" "prettier"];
+        typescriptreact = mkFormatList ["prettierd" "prettier"];
       };
 
       formatters = {
