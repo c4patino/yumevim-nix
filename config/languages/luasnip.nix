@@ -33,150 +33,91 @@
   ];
 
   # Core snippet configuration and definitions
-  extraConfigLua = ''
-        local ls = require("luasnip")
-        local types = require("luasnip.util.types")
+  # Uses unified snippets config from ../snippets/default.nix for all LuaSnip setup.
+  # Use the unified snippets config for LuaSnip
+  extraConfigLua = let
+    snippetDir = ../languages/snippets;
+    snippetFiles =
+      builtins.filter
+      (name: builtins.match ".*\\.nix$" name != null)
+      (builtins.attrNames (builtins.readDir snippetDir));
+    snippetConfigs = map (file: (import (snippetDir + "/${file}")).extraConfigLua) snippetFiles;
+    allSnippets = builtins.concatStringsSep "\n" snippetConfigs;
+  in ''
+    -- Get comment string for current filetype
+    local function get_comment_string()
+      local comment_string = vim.bo.commentstring
+      if not comment_string or comment_string == "" then
+        return "-- %s" -- Default to Lua style comments
+      end
+      return comment_string
+    end
 
-        -- Add visual indicators for snippet nodes
-        ls.config.set_config({
-          ext_opts = {
-            [types.choiceNode] = {
-              active = {
-                virt_text = {{"●", "GruvboxOrange"}}
-              }
-            },
-            [types.insertNode] = {
-              active = {
-                virt_text = {{"●", "GruvboxBlue"}}
-              }
-            }
-          }
-        })
+    -- Get visual selection
+    local function get_visual_selection()
+      local visual_modes = {
+        v = true,
+        V = true,
+        ["\22"] = true -- CTRL+V
+      }
 
-        -- Common snippet creation utilities
-        local s = ls.snippet
-        local t = ls.text_node
-        local i = ls.insert_node
-        local f = ls.function_node
-        local c = ls.choice_node
-        local d = ls.dynamic_node
-        local r = ls.restore_node
-        local fmt = require("luasnip.extras.fmt").fmt
-        local rep = require("luasnip.extras").rep
-        local parse = require("luasnip.util.parser").parse_snippet
+      if not visual_modes[vim.api.nvim_get_mode().mode] then
+        return ""
+      end
 
-        -- Function to generate namespace interpolation at runtime
-        local function namespace_interp(suffix)
-          -- Uses string.char to generate the namespace interpolation
-          return string.char(36) .. string.char(123) .. "namespace" .. string.char(125) .. suffix
-        end
+      local _, ls, cs = unpack(vim.fn.getpos("v"))
+      local _, le, ce = unpack(vim.fn.getpos("."))
 
-        -- Nix snippets
-        local nix_snippets = {
-          -- Module snippet
-          module = s("module", {
-            -- Opening
-            t({
-              "{",
-              "  config,",
-              "  lib,",
-              "  namespace,",
-              "  pkgs,",
-              "  ...",
-              "}: let",
-              "  inherit (lib) mkIf mkEnableOption;",
-              "  inherit (lib."
-            }),
-            f(function() return namespace_interp("") end),
-            t(") getAttrByNamespace mkOptionsWithNamespace;"),
-            t({"", "  base = \""}),
-            f(function() return namespace_interp(".") end),
-            i(1, "category"),
-            t("."),
-            i(2, "module"),
-            t({
-              "\";",
-              "  cfg = getAttrByNamespace config base;",
-              "in {",
-              "  options = mkOptionsWithNamespace base {",
-              "    enable = mkEnableOption \""
-            }),
-            i(3, "description"),
-            t({
-              "\";",
-              "  };",
-              "",
-              "  config = mkIf cfg.enable {",
-              "    "
-            }),
-            i(4, "# configuration"),
-            t({"", "  };", "}"}),
-          }),
+      -- Normalize positions
+      if ls > le or (ls == le and cs > ce) then
+        ls, le = le, ls
+        cs, ce = ce, cs
+      end
 
-          -- Bundle module
-          bundle = s("bundle", {
-            t({
-              "{",
-              "  config,",
-              "  lib,",
-              "  namespace,",
-              "  ...",
-              "}: let",
-              "  inherit (lib) mkIf mkEnableOption;",
-              "  inherit (lib."
-            }),
-            f(function() return namespace_interp("") end),
-            t(") getAttrByNamespace mkOptionsWithNamespace enabled;"),
-            t({"", "  base = \""}),
-            f(function() return namespace_interp(".bundles.") end),
-            i(1, "name"),
-            t({
-              "\";",
-              "  cfg = getAttrByNamespace config base;",
-              "in {",
-              "  options = mkOptionsWithNamespace base {",
-              "    enable = mkEnableOption \""
-            }),
-            i(2, "name"),
-            t({
-              " bundle\";",
-              "  };",
-              "",
-              "  config = mkIf cfg.enable {",
-              "    "
-            }),
-            f(function() return namespace_interp("") end),
-            t(" = {"),
-            t({"", "      "}),
-            i(3, "# enabled modules"),
-            t({"", "    };", "  };", "}"})
-          }),
+      local lines = vim.api.nvim_buf_get_lines(0, ls - 1, le, false)
+      if #lines == 0 then
+        return ""
+      end
 
-          -- Simple patterns using formatted strings
-          enable = s("enable", fmt([[
-    {} = {{
-      enable = true;
-      {}
-    }};]], {
-            i(1, "module.path"),
-            i(2, "# configuration"),
-          })),
+      -- Adjust for partial lines
+      lines[1] = string.sub(lines[1], cs, -1)
+      if #lines > 1 then
+        lines[#lines] = string.sub(lines[#lines], 1, ce)
+      else
+        lines[1] = string.sub(lines[1], 1, ce - cs + 1)
+      end
 
-          enabled = s("enabled", fmt("{} = enabled;", {
-            i(1, "module.path"),
-          })),
+      return table.concat(lines, "\n")
+    end
 
-          home = s("home", fmt([[
-    home = {{
-      packages = with pkgs; [ {} ];
-      {}
-    }};]], {
-            i(1, "# packages"),
-            i(2, "# other home attributes"),
-          })),
-        }
+    -- Format date in various ways
+    local function date_format(format)
+      return os.date(format)
+    end
 
-        -- Add snippets to filetypes
-        ls.add_snippets("nix", nix_snippets)
+    -- Capture groups from regex matches
+    local function capture_match(match, group)
+      if match and #match > group then
+        return match[group + 1]
+      end
+      return ""
+    end
+
+    -- Check if the current buffer is a test file
+    local function is_test_file()
+      local filename = vim.fn.expand("%:t")
+      return string.match(filename, "[tT]est") ~= nil or string.match(filename, "_test") ~= nil or string.match(filename, "spec") ~= nil
+    end
+
+    -- Make these functions available to snippets
+    _G.snippet_utils = {
+      get_comment_string = get_comment_string,
+      get_visual_selection = get_visual_selection,
+      date_format = date_format,
+      capture_match = capture_match,
+      is_test_file = is_test_file
+    }
+
+    ${allSnippets}
   '';
 }

@@ -17,10 +17,10 @@
           "  ...",
           "}: let",
           "  inherit (lib) mkIf mkEnableOption;",
-          "  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;",  -- literal ${namespace}
+          "  ${"inherit (lib.\${namespace}) getAttrByNamespace mkOptionsWithNamespace;"}",
           "  base = \""
         }),
-        i(1, "namespace"),
+        t("${"\${namespace}"}"),
         t("."),
         i(2, "category"),
         t("."),
@@ -56,10 +56,10 @@
           "  ...",
           "}: let",
           "  inherit (lib) mkIf mkEnableOption;",
-          "  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;",
+          "  ${"inherit (lib.\${namespace}) getAttrByNamespace mkOptionsWithNamespace enabled;"}",
           "  base = \""
         }),
-        i(1, "namespace"),
+        t("${"\${namespace}"}"),
         t(".bundles."),
         i(2, "name"),
         t({"\";",
