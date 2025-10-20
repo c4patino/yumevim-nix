@@ -1,14 +1,30 @@
 {
-  plugins.toggleterm = {
-    enable = true;
+  config,
+  lib,
+  namespace,
+  ...
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  base = "${namespace}.utils.toggleterm";
+  cfg = getAttrByNamespace config base;
+in {
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "toggleterm";
+  };
 
-    settings = {
-      open_mapping = "[[<A-i>]]";
+  config = mkIf cfg.enable {
+    plugins.toggleterm = {
+      enable = true;
 
-      direction = "float";
+      settings = {
+        open_mapping = "[[<A-i>]]";
 
-      float_opts.border = "curved";
-      winbar.enabled = true;
+        direction = "float";
+
+        float_opts.border = "curved";
+        winbar.enabled = true;
+      };
     };
   };
 }

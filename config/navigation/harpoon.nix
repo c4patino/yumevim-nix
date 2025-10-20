@@ -1,44 +1,60 @@
 {
-  keymaps = [
-    {
-      mode = "n";
-      key = "<leader>a";
-      action.__raw = "function() require'harpoon':list():add() end";
-    }
-    {
-      mode = "n";
-      key = "<C-e>";
-      action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end";
-    }
-    {
-      mode = "n";
-      key = "<C-j>";
-      action.__raw = "function() require'harpoon':list():select(1) end";
-    }
-    {
-      mode = "n";
-      key = "<C-k>";
-      action.__raw = "function() require'harpoon':list():select(2) end";
-    }
-    {
-      mode = "n";
-      key = "<C-l>";
-      action.__raw = "function() require'harpoon':list():select(3) end";
-    }
-    {
-      mode = "n";
-      key = "<C-;>";
-      action.__raw = "function() require'harpoon':list():select(4) end";
-    }
-  ];
-
-  plugins.harpoon = {
-    enable = true;
-    enableTelescope = true;
+  config,
+  lib,
+  namespace,
+  ...
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  base = "${namespace}.navigation.harpoon";
+  cfg = getAttrByNamespace config base;
+in {
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "harpoon";
   };
 
-  extraConfigLua = ''
-    local harpoon = require("harpoon")
-    harpoon:setup({ settings = { save_on_toggle = true }})
-  '';
+  config = mkIf cfg.enable {
+    keymaps = [
+      {
+        mode = "n";
+        key = "<leader>a";
+        action.__raw = "function() require'harpoon':list():add() end";
+      }
+      {
+        mode = "n";
+        key = "<C-e>";
+        action.__raw = "function() require'harpoon'.ui:toggle_quick_menu(require'harpoon':list()) end";
+      }
+      {
+        mode = "n";
+        key = "<C-j>";
+        action.__raw = "function() require'harpoon':list():select(1) end";
+      }
+      {
+        mode = "n";
+        key = "<C-k>";
+        action.__raw = "function() require'harpoon':list():select(2) end";
+      }
+      {
+        mode = "n";
+        key = "<C-l>";
+        action.__raw = "function() require'harpoon':list():select(3) end";
+      }
+      {
+        mode = "n";
+        key = "<C-;>";
+        action.__raw = "function() require'harpoon':list():select(4) end";
+      }
+    ];
+
+    plugins.harpoon = {
+      enable = true;
+      enableTelescope = true;
+    };
+
+    extraConfigLua = ''
+      local harpoon = require("harpoon")
+      harpoon:setup({ settings = { save_on_toggle = true }})
+    '';
+  };
 }

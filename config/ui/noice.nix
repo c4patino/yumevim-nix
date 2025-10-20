@@ -1,33 +1,49 @@
 {
-  plugins.noice = {
-    enable = true;
+  config,
+  lib,
+  namespace,
+  ...
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  base = "${namespace}.ui.noice";
+  cfg = getAttrByNamespace config base;
+in {
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "noice";
+  };
 
-    settings = {
-      notify.enabled = false;
-      messages.enabled = true;
+  config = mkIf cfg.enable {
+    plugins.noice = {
+      enable = true;
 
-      lsp = {
-        message.enabled = true;
-        progress = {
-          enabled = false;
-          view = "mini";
+      settings = {
+        notify.enabled = false;
+        messages.enabled = true;
+
+        lsp = {
+          message.enabled = true;
+          progress = {
+            enabled = false;
+            view = "mini";
+          };
         };
-      };
 
-      popupmenu = {
-        enabled = true;
-        backend = "nui";
-      };
-      format = {
-        filter = {
-          pattern = [":%s*%%s*s:%s*" ":%s*%%s*s!%s*" ":%s*%%s*s/%s*" "%s*s:%s*" ":%s*s!%s*" ":%s*s/%s*"];
-          icon = "";
-          lang = "regex";
+        popupmenu = {
+          enabled = true;
+          backend = "nui";
         };
-        replace = {
-          pattern = [":%s*%%s*s:%w*:%s*" ":%s*%%s*s!%w*!%s*" ":%s*%%s*s/%w*/%s*" "%s*s:%w*:%s*" ":%s*s!%w*!%s*" ":%s*s/%w*/%s*"];
-          icon = "󱞪";
-          lang = "regex";
+        format = {
+          filter = {
+            pattern = [":%s*%%s*s:%s*" ":%s*%%s*s!%s*" ":%s*%%s*s/%s*" "%s*s:%s*" ":%s*s!%s*" ":%s*s/%s*"];
+            icon = "";
+            lang = "regex";
+          };
+          replace = {
+            pattern = [":%s*%%s*s:%w*:%s*" ":%s*%%s*s!%w*!%s*" ":%s*%%s*s/%w*/%s*" "%s*s:%w*:%s*" ":%s*s!%w*!%s*" ":%s*s/%w*/%s*"];
+            icon = "󱞪";
+            lang = "regex";
+          };
         };
       };
     };

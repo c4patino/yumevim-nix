@@ -1,16 +1,12 @@
-{
+{...} @ inputs: {
   imports = [
-    ./lazygit.nix
-    ./obsidian.nix
-    ./todo-comments.nix
-    ./toggleterm.nix
-    ./undotree.nix
-    ./vimtex.nix
-    ./zenmode.nix
+    (import ./lazygit.nix inputs)
+    (import ./obsidian.nix inputs)
+    (import ./todo-comments.nix inputs)
+    (import ./toggleterm.nix inputs)
+    (import ./undotree.nix inputs)
+    (import ./vimtex.nix inputs)
+    (import ./which-key.nix inputs)
+    (import ./zenmode.nix inputs)
   ];
-
-  plugins = {
-    persistence.enable = true;
-    which-key.enable = true;
-  };
 }

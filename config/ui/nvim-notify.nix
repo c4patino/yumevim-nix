@@ -1,47 +1,63 @@
 {
-  keymaps = [
-    {
-      mode = "n";
-      key = "<leader>un";
-      action = ''
-        <cmd>lua require("notify").dismiss({ silent = true, pending = true })<cr>
-      '';
-      options = {desc = "Dismiss All Notifications";};
-    }
-  ];
-
-  plugins.notify = {
-    enable = true;
-
-    settings = {
-      background_color = "#000000";
-      fps = 60;
-      render = "default";
-      timeout = 500;
-      top_down = false;
-    };
+  config,
+  lib,
+  namespace,
+  ...
+}: let
+  inherit (lib) mkIf mkEnableOption;
+  inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
+  base = "${namespace}.ui.nvim-notify";
+  cfg = getAttrByNamespace config base;
+in {
+  options = mkOptionsWithNamespace base {
+    enable = mkEnableOption "nvim-notify";
   };
 
-  extraConfigLua = ''
-    local notify = require("notify")
-    local filtered_message = { "No information available" }
+  config = mkIf cfg.enable {
+    keymaps = [
+      {
+        mode = "n";
+        key = "<leader>un";
+        action = ''
+          <cmd>lua require("notify").dismiss({ silent = true, pending = true })<cr>
+        '';
+        options = {desc = "Dismiss All Notifications";};
+      }
+    ];
 
-    -- Override notify function to filter out messages
-    ---@diagnostic disable-next-line: duplicate-set-field
-    vim.notify = function(message, level, opts)
-        local merged_opts = vim.tbl_extend("force", {
-            on_open = function(win)
-                local buf = vim.api.nvim_win_get_buf(win)
-                vim.api.nvim_buf_set_option(buf, "filetype", "markdown")
-            end,
-        }, opts or {})
+    plugins.notify = {
+      enable = true;
 
-        for _, msg in ipairs(filtered_message) do
-            if message == msg then
-                return
-            end
-        end
-        return notify(message, level, merged_opts)
-    end
-  '';
+      settings = {
+        background_color = "#000000";
+        fps = 60;
+        render = "default";
+        timeout = 500;
+        top_down = false;
+      };
+    };
+
+    extraConfigLua = ''
+      local notify = require("notify")
+      local filtered_message = { "No information available" }
+
+      -- Override notify function to filter out messages
+      ---@diagnostic disable-next-line: duplicate-set-field
+      vim.notify = function(message, level, opts)
+          local merged_opts = vim.tbl_extend("force", {
+              on_open = function(win)
+                  local buf = vim.api.nvim_win_get_buf(win)
+                  vim.api.nvim_buf_set_option(buf, "filetype", "markdown")
+              end,
+          }, opts or {})
+
+          for _, msg in ipairs(filtered_message) do
+              if message == msg then
+                  return
+              end
+          end
+          return notify(message, level, merged_opts)
+      end
+    '';
+  };
 }
