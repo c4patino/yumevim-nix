@@ -1,11 +1,11 @@
-{pkgs, ...}: {
+{pkgs, ...} @ inputs: {
   imports = [
-    ./alpha.nix
-    ./fidget.nix
-    ./indent-blankline.nix
-    ./lualine.nix
-    ./noice.nix
-    ./nvim-notify.nix
+    (import ./alpha.nix inputs)
+    (import ./fidget.nix inputs)
+    (import ./indent-blankline.nix inputs)
+    (import ./lualine.nix inputs)
+    (import ./noice.nix inputs)
+    (import ./nvim-notify.nix inputs)
   ];
 
   colorschemes.tokyonight = {

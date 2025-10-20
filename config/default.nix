@@ -1,9 +1,11 @@
-{
+{...} @ inputs: {
   imports = [
-    ./languages
-    ./navigation
-    ./ui
-    ./utils
+    (import ./bundles inputs)
+
+    (import ./languages inputs)
+    (import ./navigation inputs)
+    (import ./ui inputs)
+    (import ./utils inputs)
 
     ./autocmds.nix
     ./mappings.nix

@@ -2,26 +2,20 @@
   config,
   lib,
   namespace,
-  pkgs,
   ...
 }: let
   inherit (lib) mkIf mkEnableOption;
   inherit (lib.${namespace}) getAttrByNamespace mkOptionsWithNamespace;
-  base = "${namespace}.utils.vimtex";
+  base = "${namespace}.utils.which-key";
   cfg = getAttrByNamespace config base;
 in {
   options = mkOptionsWithNamespace base {
-    enable = mkEnableOption "vimtex";
+    enable = mkEnableOption "which-key";
   };
 
   config = mkIf cfg.enable {
-    plugins.vimtex = {
-      enable = true;
-      texlivePackage = pkgs.texliveFull;
-
-      settings = {
-        view_method = "zathura";
-      };
+    plugins = {
+      which-key.enable = true;
     };
   };
 }

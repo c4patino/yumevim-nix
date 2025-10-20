@@ -19,22 +19,6 @@
       system: let
         namespace = "yumevim";
 
-        pkgs = import nixpkgs {inherit system;};
-        mergedLib = pkgs.lib.extend (final: prev: {${namespace} = import ./lib {lib = pkgs.lib;};});
-
-        nixvimLib = nixvim.lib.${system};
-        nixvim' = nixvim.legacyPackages.${system};
-        nixvimModule = {
-          inherit pkgs;
-          module = import ./config;
-          extraSpecialArgs = {
-            lib = mergedLib.extend nixvim.lib.overlay;
-            namespace = namespace;
-          };
-        };
-
-        nvim = nixvim'.makeNixvimWithModule nixvimModule;
-
         treefmtConfig = {...}: {
           projectRootFile = "flake.nix";
           programs = {
@@ -42,13 +26,50 @@
           };
         };
         treefmtEval = treefmt-nix.lib.evalModule pkgs (treefmtConfig {inherit pkgs;});
-      in {
-        checks = {
-          default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
-          treefmt = treefmtEval.config.build.check self;
+
+        pkgs = import nixpkgs {inherit system;};
+        mergedLib = pkgs.lib.extend (final: prev: {${namespace} = import ./lib {lib = pkgs.lib;};});
+
+        nixvimLib = nixvim.lib.${system};
+        nixvim' = nixvim.legacyPackages.${system};
+        mkNixvimProfile = custom: {
+          module = {
+            imports = [./config];
+
+            ${namespace} = pkgs.lib.mkMerge [
+              {
+                bundles.common.enable = true;
+              }
+              custom
+            ];
+          };
+
+          extraSpecialArgs = {
+            inherit namespace pkgs;
+            lib = mergedLib.extend nixvim.lib.overlay;
+          };
         };
 
-        packages.default = nvim;
+        minimal = mkNixvimProfile {};
+
+        full = mkNixvimProfile {
+          languages = {
+            lsp.enable = true;
+          };
+          utils = {
+            obsidian.enable = true;
+          };
+        };
+      in {
+        checks = {
+          treefmt = treefmtEval.config.build.check self;
+          minimal = nixvimLib.check.mkTestDerivationFromNixvimModule minimal;
+        };
+
+        packages = {
+          default = nixvim'.makeNixvimWithModule minimal;
+          full = nixvim'.makeNixvimWithModule full;
+        };
       }
     );
 }
