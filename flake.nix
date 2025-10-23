@@ -58,6 +58,7 @@
           };
           utils = {
             obsidian.enable = true;
+            vimtex.enable = true;
           };
         };
       in {
