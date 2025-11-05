@@ -67,6 +67,8 @@
           minimal = nixvimLib.check.mkTestDerivationFromNixvimModule minimal;
         };
 
+        formatter = treefmtEval.config.build.wrapper;
+
         packages = {
           default = nixvim'.makeNixvimWithModule minimal;
           full = nixvim'.makeNixvimWithModule full;
