@@ -27,7 +27,12 @@
         };
         treefmtEval = treefmt-nix.lib.evalModule pkgs (treefmtConfig {inherit pkgs;});
 
-        pkgs = import nixpkgs {inherit system;};
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            (import ./overlays/lualine-nvim.nix)
+          ];
+        };
         mergedLib = pkgs.lib.extend (final: prev: {${namespace} = import ./lib {lib = pkgs.lib;};});
 
         nixvimLib = nixvim.lib.${system};
