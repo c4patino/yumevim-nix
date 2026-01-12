@@ -57,6 +57,12 @@
 
         minimal = mkNixvimProfile {};
 
+        default = mkNixvimProfile {
+          languages = {
+            lsp.enable = true;
+          };
+        };
+
         full = mkNixvimProfile {
           languages = {
             lsp.enable = true;
@@ -74,10 +80,14 @@
 
         formatter = treefmtEval.config.build.wrapper;
 
-        packages = {
-          default = nixvim'.makeNixvimWithModule minimal;
-          full = nixvim'.makeNixvimWithModule full;
-        };
+        packages =
+          builtins.mapAttrs
+          (name: config: nixvim'.makeNixvimWithModule config)
+          {
+            minimal = minimal;
+            default = default;
+            full = full;
+          };
       }
     );
 }
