@@ -11,7 +11,7 @@ in {
   config = mkIf cfg.enable {
     plugins.lspkind = {
       enable = true;
-      extraOptions = {
+      settings = {
         maxwidth = 50;
         ellipsis_char = "...";
       };

@@ -91,64 +91,68 @@ in {
 
     plugins.lspsaga = {
       enable = true;
-      beacon = {
-        enable = true;
-      };
-      ui = {
-        border = "rounded";
-        codeAction = "💡";
-      };
-      hover = {
-        openCmd = "!floorp";
-        openLink = "gx";
-      };
-      diagnostic = {
-        borderFollow = true;
-        diagnosticOnlyCurrent = false;
-        showCodeAction = true;
-      };
-      symbolInWinbar = {
-        enable = true;
-      };
-      codeAction = {
-        extendGitSigns = false;
-        showServerName = true;
-        onlyInCursor = true;
-        numShortcut = true;
-        keys = {
-          exec = "<cr>";
-          quit = ["<Esc>" "q"];
+      settings = {
+        beacon = {
+          enable = true;
         };
-      };
-      lightbulb = {
-        enable = false;
-        sign = false;
-        virtualText = true;
-      };
-      implement.enable = false;
-      rename = {
-        autoSave = false;
-        keys = {
-          exec = "<cr>";
-          quit = ["<C-k>" "<Esc>"];
-          select = "x";
+        ui = {
+          border = "rounded";
+          code_action = "💡";
         };
-      };
-      outline = {
-        autoClose = true;
-        autoPreview = true;
-        closeAfterJump = true;
-        layout = "normal";
-        winPosition = "right";
-        keys = {
-          jump = "e";
-          quit = "q";
-          toggleOrJump = "o";
+        hover = {
+          open_cmd = "!floorp";
+          open_link = "gx";
         };
-      };
-      scrollPreview = {
-        scrollDown = "<C-f>";
-        scrollUp = "<C-b>";
+        diagnostic = {
+          border_follow = true;
+          diagnostic_only_current = false;
+          show_code_action = true;
+        };
+        symbol_in_winbar = {
+          enable = true;
+        };
+        code_action = {
+          extend_git_signs = false;
+          show_server_name = true;
+          only_in_cursor = true;
+          num_shortcut = true;
+          keys = {
+            exec = "<cr>";
+            quit = ["<Esc>" "q"];
+          };
+        };
+        lightbulb = {
+          enable = false;
+          sign = false;
+          virtual_text = true;
+        };
+        implement = {
+          enable = false;
+        };
+        rename = {
+          auto_save = false;
+          keys = {
+            exec = "<cr>";
+            quit = ["<C-k>" "<Esc>"];
+            select = "x";
+          };
+        };
+        outline = {
+          auto_close = true;
+          auto_preview = true;
+          close_after_jump = true;
+          layout = "normal";
+          win_position = "right";
+          keys = {
+            jump = "e";
+            quit = "q";
+            toggle_or_jump = "o";
+          };
+        };
+        scroll_preview = {
+          scroll_down = "<C-f>";
+          scroll_up = "<C-b>";
+        };
       };
     };
   };
