@@ -16,7 +16,7 @@ in {
   config = mkIf cfg.enable {
     plugins.treesitter = {
       enable = true;
-      folding = true;
+      folding.enable = true;
       settings.highlight = {
         enable = true;
       };

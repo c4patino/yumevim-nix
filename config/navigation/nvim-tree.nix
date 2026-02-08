@@ -28,64 +28,64 @@ in {
     plugins.nvim-tree = {
       enable = true;
 
-      disableNetrw = true;
-      hijackNetrw = true;
-      hijackCursor = true;
-      hijackUnnamedBufferWhenOpening = true;
-      syncRootWithCwd = true;
+      settings = {
+        disable_netrw = true;
+        hijack_cursor = true;
+        hijack_netrw = true;
+        hijack_unnamed_buffer_when_opening = true;
+        sync_root_with_cwd = true;
 
-      updateFocusedFile.enable = true;
+        sort_by = "case_sensitive";
 
-      sortBy = "case_sensitive";
+        filters = {
+          custom = ["__pycache__"];
+          exclude = [];
+        };
 
-      filters = {
-        custom = ["__pycache__"];
-        exclude = [];
-      };
+        git = {
+          enable = true;
+          ignore = true;
+        };
 
-      git = {
-        enable = true;
-        ignore = true;
-      };
+        renderer = {
+          root_folder_label = false;
+          indent_width = 2;
+          highlight_git = true;
+          indent_markers.enable = true;
 
-      view = {
-        side = "right";
-        width = 60;
-        number = true;
-        relativenumber = true;
-        preserveWindowProportions = true;
-      };
+          group_empty = true;
 
-      renderer = {
-        rootFolderLabel = false;
-        indentWidth = 2;
-        highlightGit = true;
-        indentMarkers.enable = true;
-
-        groupEmpty = true;
-
-        icons.glyphs = {
-          default = "󰈚";
-          symlink = "";
-          folder = {
-            default = "";
-            empty = "";
-            emptyOpen = "";
-            open = "";
-            symlink = "";
-            symlinkOpen = "";
-            arrowOpen = "";
-            arrowClosed = "";
+          icons.glyphs = {
+            default = "󰈚";
+            symlink = "";
+            folder = {
+              default = "";
+              empty = "";
+              empty_open = "";
+              open = "";
+              symlink = "";
+              symlink_open = "";
+              arrow_open = "";
+              arrow_closed = "";
+            };
+            git = {
+              unstaged = "✗";
+              staged = "✓";
+              unmerged = "";
+              renamed = "➜";
+              untracked = "★";
+              deleted = "";
+              ignored = "◌";
+            };
           };
-          git = {
-            unstaged = "✗";
-            staged = "✓";
-            unmerged = "";
-            renamed = "➜";
-            untracked = "★";
-            deleted = "";
-            ignored = "◌";
-          };
+        };
+
+        view = {
+          side = "right";
+          width = 60;
+          number = true;
+          relativenumber = true;
+          preserve_window_proportions = true;
         };
       };
     };
