@@ -35,6 +35,10 @@ in {
         hijack_unnamed_buffer_when_opening = true;
         sync_root_with_cwd = true;
 
+        update_focused_file = {
+          enable = true;
+        };
+
         sort_by = "case_sensitive";
 
         filters = {
