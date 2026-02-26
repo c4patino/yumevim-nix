@@ -16,7 +16,6 @@
 
     swapfile = false;
     backup = false;
-    undodir = "/home/c4patino/.vim/undodir";
     undofile = true;
 
     hlsearch = false;
