@@ -32,9 +32,6 @@
 
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [
-            (import ./overlays/lualine-nvim.nix)
-          ];
         };
         mergedLib = pkgs.lib.extend (final: prev: {${namespace} = import ./lib {lib = pkgs.lib;};});
 
