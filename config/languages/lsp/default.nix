@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 } @ inputs: let
   inherit (lib) mkIf mkEnableOption;
@@ -32,7 +33,25 @@ in {
             enable = true;
             installGhc = false;
           };
-          jdtls.enable = true;
+          jdtls = {
+            enable = true;
+            settings = {
+              java.configuration.runtimes = [
+                {
+                  name = "JavaSE-25";
+                  path = pkgs.openjdk25;
+                }
+                {
+                  name = "JavaSE-21";
+                  path = pkgs.openjdk21;
+                }
+                {
+                  name = "JavaSE-8";
+                  path = pkgs.openjdk8;
+                }
+              ];
+            };
+          };
           lua_ls.enable = true;
           nixd.enable = true;
           pylsp = {
