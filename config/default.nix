@@ -8,6 +8,7 @@
     (import ./utils inputs)
 
     ./autocmds.nix
+    ./commands.nix
     ./mappings.nix
     ./options.nix
   ];
