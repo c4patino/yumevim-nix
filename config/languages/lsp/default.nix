@@ -26,11 +26,11 @@ in {
         capabilities = "offsetEncoding = 'utf-16'";
         servers = {
           astro.enable = true;
-          clangd.enable = true;
+          clangd.enable = false;
           csharp_ls.enable = true;
           gopls.enable = true;
           hls = {
-            enable = true;
+            enable = false;
             installGhc = false;
           };
           jdtls = {
@@ -68,7 +68,7 @@ in {
             };
           };
           sqls.enable = true;
-          zls.enable = true;
+          zls.enable = false;
         };
       };
       rustaceanvim.enable = true;
