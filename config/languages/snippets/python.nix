@@ -105,6 +105,56 @@
         i(4, "iterable"),
       })),
 
+      -- Enumerate loop
+      s("enum", fmt([[
+      for {}, {} in enumerate({}, start={}):
+          {}
+      ]], {
+        i(1, "index"),
+        i(2, "item"),
+        i(3, "iterable"),
+        i(4, "0"),
+        i(5, "# Implementation"),
+      })),
+
+      -- Dictionary iteration
+      s("items", fmt([[
+      for {}, {} in {}.items():
+          {}
+      ]], {
+        i(1, "key"),
+        i(2, "value"),
+        i(3, "dictionary"),
+        i(4, "# Implementation"),
+      })),
+
+      -- Zip loop
+      s("zip", fmt([[
+      for {}, {} in zip({}, {}):
+          {}
+      ]], {
+        i(1, "a"),
+        i(2, "b"),
+        i(3, "list_a"),
+        i(4, "list_b"),
+        i(5, "# Implementation"),
+      })),
+
+      -- Guard clause
+      s("guard", fmt([[
+      if not {}:
+          raise {}
+      ]], {
+        i(1, "condition"),
+        i(2, "ValueError"),
+      })),
+
+      -- Assert statement
+      s("assert", fmt("assert {}, {}", {
+        i(1, "condition"),
+        i(2, '"Assertion message"'),
+      })),
+
       -- Test function (pytest)
       s("test", fmt([[
         def test_{}():

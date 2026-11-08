@@ -30,13 +30,13 @@ in {
     keymaps = [
       {
         mode = "i";
-        key = "<C-k>";
+        key = "<C-f>";
         action = "<cmd>lua require('luasnip').expand_or_jump()<CR>";
         options.desc = "Snippets Expand or jump forward";
       }
       {
         mode = "i";
-        key = "<C-j>";
+        key = "<C-b>";
         action = "<cmd>lua require('luasnip').jump(-1)<CR>";
         options.desc = "Snippets Jump backward";
       }
