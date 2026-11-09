@@ -25,6 +25,34 @@
         end)
       }),
 
+      -- Current year
+      s("year", {
+        f(function()
+          return os.date("%Y")
+        end)
+      }),
+
+      -- Current time
+      s("time", {
+        f(function()
+          return os.date("%H:%M:%S")
+        end)
+      }),
+
+      -- ISO 8601 timestamp
+      s("timestamp", {
+        f(function()
+          return os.date("%Y-%m-%dT%H:%M:%S%z")
+        end)
+      }),
+
+      -- Unix timestamp
+      s("epoch", {
+        f(function()
+          return tostring(os.time())
+        end)
+      }),
+
       -- TODO comment using the file's comment style
       s("todo", {
         f(function()

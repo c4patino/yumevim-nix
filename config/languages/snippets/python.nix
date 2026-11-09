@@ -10,6 +10,10 @@
     local fmt = require("luasnip.extras.fmt").fmt
 
     local python_snippets = {
+      -- ===============================================================================
+      --   LANGUAGE: Core Python Language Features
+      -- ===============================================================================
+
       -- Import statement
       s("imp", {
         t("import "),
@@ -22,41 +26,6 @@
         i(2, "name")
       })),
 
-      -- Class definition
-      s("class", fmt([[
-        class {}:
-            """{}"""
-
-            def __init__(self{}):
-                {}
-      ]], {
-        i(1, "ClassName"),
-        i(2, "Class docstring"),
-        i(3, ""),
-        i(4, "# Implementation"),
-      })),
-
-      -- Function definition
-      s("def", fmt([[
-        def {}({}):
-            """{}
-
-            {}
-            {}
-            """
-            {}
-      ]], {
-        i(1, "function_name"),
-        i(2, ""),
-        i(3, "Function docstring"),
-        c(4, {
-          t("Args:"),
-          t("Parameters:"),
-        }),
-        i(5, "    arg: Description"),
-        i(6, "    # Implementation"),
-      })),
-
       -- Main function
       s("main", fmt([[
         def main():
@@ -65,7 +34,7 @@
         if __name__ == "__main__":
             main()
       ]], {
-        i(1, "# Implementation"),
+        i(1),
       })),
 
       -- Try/except block
@@ -77,7 +46,7 @@
       ]], {
         i(1, "# Try block"),
         i(2, "Exception"),
-        i(3, "# Exception handling"),
+        i(3),
       })),
 
       -- Context manager (with statement)
@@ -87,7 +56,22 @@
       ]], {
         i(1, "context_manager"),
         i(2, "variable"),
-        i(3, "# Implementation"),
+        i(3),
+      })),
+
+      -- Guard clause
+      s("guard", fmt([[
+        if not {}:
+            raise {}
+      ]], {
+        i(1, "condition"),
+        i(2, "ValueError"),
+      })),
+
+      -- Assert statement
+      s("assert", fmt("assert {}, {}", {
+        i(1, "condition"),
+        i(2, '"Assertion message"'),
       })),
 
       -- List comprehension
@@ -105,6 +89,25 @@
         i(4, "iterable"),
       })),
 
+      -- For loop
+      s("for", fmt([[
+        for {} in {}:
+            {}
+      ]], {
+        i(1, "item"),
+        i(2, "iterable"),
+        i(3),
+      })),
+
+      -- While loop
+      s("while", fmt([[
+        while {}:
+            {}
+      ]], {
+        i(1, "condition"),
+        i(2),
+      })),
+
       -- Enumerate loop
       s("enum", fmt([[
       for {}, {} in enumerate({}, start={}):
@@ -114,7 +117,7 @@
         i(2, "item"),
         i(3, "iterable"),
         i(4, "0"),
-        i(5, "# Implementation"),
+        i(5),
       })),
 
       -- Dictionary iteration
@@ -125,7 +128,7 @@
         i(1, "key"),
         i(2, "value"),
         i(3, "dictionary"),
-        i(4, "# Implementation"),
+        i(4),
       })),
 
       -- Zip loop
@@ -137,23 +140,49 @@
         i(2, "b"),
         i(3, "list_a"),
         i(4, "list_b"),
-        i(5, "# Implementation"),
+        i(5),
       })),
 
-      -- Guard clause
-      s("guard", fmt([[
-      if not {}:
-          raise {}
+      -- ===============================================================================
+      --   TYPES: Type Definitions
+      -- ===============================================================================
+
+      -- Class
+      s("class", fmt([[
+        class {}({}):
+            """{}"""
+
+            def __init__(self{} {}) -> None:
+                {}
       ]], {
-        i(1, "condition"),
-        i(2, "ValueError"),
+        i(1, "ClassName"),
+        i(2, "object"),
+        i(3, "Class docstring"),
+        i(4, ""),
+        c(5, {
+          t(""),
+          t(":"),
+        }),
+        i(6),
       })),
 
-      -- Assert statement
-      s("assert", fmt("assert {}, {}", {
-        i(1, "condition"),
-        i(2, '"Assertion message"'),
+      -- Function
+      s("def", fmt([[
+        def {}({}){}:
+            """{}
+            """
+            {}
+      ]], {
+        i(1, "function_name"),
+        i(2, ""),
+        i(3, " -> {}"),
+        i(4, "Function docstring"),
+        i(5),
       })),
+
+      -- ===============================================================================
+      --   LIBRARIES: pytest
+      -- ===============================================================================
 
       -- Test function (pytest)
       s("test", fmt([[
@@ -163,8 +192,9 @@
       ]], {
         i(1, "name"),
         i(2, "Test docstring"),
-        i(3, "# Test implementation"),
+        i(3),
       }))
+
     }
 
     -- Add these snippets to Python files
