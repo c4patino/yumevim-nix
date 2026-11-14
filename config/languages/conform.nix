@@ -53,14 +53,11 @@ in {
             };
         in {
           astro = mkFormatList ["prettierd" "prettier"];
-          cabal = mkFormatList ["ormolu"];
-          haskell = mkFormatList ["ormolu"];
           java = mkFormatList ["google-java-format"];
           javascript = mkFormatList ["prettierd" "prettier"];
           javascriptreact = mkFormatList ["prettierd" "prettier"];
           lua = mkFormatList ["stylua"];
           nix = mkFormatList ["alejandra"];
-          racket = mkFormatList ["raco_fmt"];
           typescript = mkFormatList ["prettierd" "prettier"];
           typescriptreact = mkFormatList ["prettierd" "prettier"];
         };
