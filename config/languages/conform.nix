@@ -53,26 +53,24 @@ in {
             };
         in {
           astro = mkFormatList ["prettierd" "prettier"];
-          cabal = mkFormatList ["ormolu"];
-          haskell = mkFormatList ["ormolu"];
-          java = mkFormatList ["google-java-format"];
           javascript = mkFormatList ["prettierd" "prettier"];
           javascriptreact = mkFormatList ["prettierd" "prettier"];
           lua = mkFormatList ["stylua"];
           nix = mkFormatList ["alejandra"];
-          racket = mkFormatList ["raco_fmt"];
           typescript = mkFormatList ["prettierd" "prettier"];
           typescriptreact = mkFormatList ["prettierd" "prettier"];
+          terraform = mkFormatList ["terraformfmt"];
         };
 
         formatters = {
-          raco_fmt = {
-            command = "raco";
-            args = ["fmt"];
+          prettier = {
+            command = "prettier";
+            args = ["--stdin-filepath" "%{FILEPATH}"];
           };
-          nix_fmt = {
-            command = "nix";
-            args = ["fmt"];
+          terraformfmt = {
+            command = "terraform";
+            args = ["fmt" "-"];
+            stdin = false;
           };
         };
       };
