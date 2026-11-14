@@ -33,4 +33,8 @@
 
     signcolumn = "yes";
   };
+
+  filetype.extension = {
+    hcl = "terraform";
+  };
 }
