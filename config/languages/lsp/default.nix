@@ -68,6 +68,7 @@ in {
             };
           };
           sqls.enable = true;
+          terraformls.enable = true;
           zls.enable = false;
         };
       };
