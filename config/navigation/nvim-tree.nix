@@ -42,7 +42,11 @@ in {
         sort_by = "case_sensitive";
 
         filters = {
-          custom = ["__pycache__"];
+          custom = [
+            ".devenv"
+            ".direnv"
+            "__pycache__"
+          ];
           exclude = [];
         };
 
