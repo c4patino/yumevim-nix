@@ -21,10 +21,7 @@ in {
         action.__raw = ''
           function()
             local word = vim.fn.expand("<cword>")
-            require('telescope.builtin').grep_string({
-              search = word,
-              additional_args = { "--hidden", "--glob", "!.git/*" }
-            })
+            require('telescope.builtin').grep_string({ search = word })
           end
         '';
         options.desc = "Telescope Live grep word under cursor";
@@ -35,10 +32,7 @@ in {
         action.__raw = ''
           function()
             local word = vim.fn.expand("cWORD")
-            require('telescope.builtin').grep_string({
-              search = word,
-              additional_args = { "--hidden", "--glob", "!.git/*" }
-            })
+            require('telescope.builtin').grep_string({ search = word })
           end
         '';
         options.desc = "Telecope Live grep WORD under cursor";
@@ -120,9 +114,23 @@ in {
             "--column"
 
             "--smart-case"
+
             "--hidden"
+
             "--glob"
-            "!.git/*"
+            "!.devenv/**"
+            "--glob"
+            "!**/.git"
+            "--glob"
+            "!**/.git/**"
+            "--glob"
+            "!*.lock"
+            "--glob"
+            "!*.bst"
+            "--glob"
+            "!*.cls"
+            "--glob"
+            "!*.sty"
           ];
         };
 
@@ -133,13 +141,6 @@ in {
               "^%.git/"
               "/%.git/"
             ];
-          };
-          live_grep = {
-            additional_args = ''
-              function()
-                return { "--hidden", "--glob", "!.git/*" }
-              end
-            '';
           };
         };
       };
