@@ -23,8 +23,40 @@ in {
       }
     ];
 
-    plugins = {
-      todo-comments.enable = true;
+    plugins.todo-comments = {
+      enable = true;
+
+      settings = {
+        search = {
+          args = [
+            "--color=never"
+            "--no-heading"
+
+            "--with-filename"
+            "--line-number"
+            "--column"
+
+            "--smart-case"
+
+            "--hidden"
+
+            "--glob"
+            "!.devenv/**"
+            "--glob"
+            "!**/.git"
+            "--glob"
+            "!**/.git/**"
+            "--glob"
+            "!*.lock"
+            "--glob"
+            "!*.bst"
+            "--glob"
+            "!*.cls"
+            "--glob"
+            "!*.sty"
+          ];
+        };
+      };
     };
   };
 }
