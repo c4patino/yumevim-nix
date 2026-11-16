@@ -14,10 +14,19 @@
   };
 
   plugins = {
-    dressing.enable = true;
-    numbertoggle.enable = true;
     colorizer.enable = true;
+    dressing.enable = true;
     gitsigns.enable = true;
+    numbertoggle.enable = true;
+
+    web-devicons.customIcons = {
+      hcl = {
+        icon = "";
+        color = "#5f43e9";
+        cterm_color = "93";
+        name = "HCL";
+      };
+    };
   };
 
   extraPlugins = with pkgs.vimPlugins; [
